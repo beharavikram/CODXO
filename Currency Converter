@@ -1,0 +1,63 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CurrencyConverter {
+
+    // A map to store currency conversion rates
+    private static final Map<String, Double> conversionRates = new HashMap<>();
+
+    static {
+        // Initialize conversion rates (example rates)
+        conversionRates.put("USD_EUR", 0.85);
+        conversionRates.put("EUR_USD", 1.18);
+        conversionRates.put("USD_GBP", 0.75);
+        conversionRates.put("GBP_USD", 1.33);
+        conversionRates.put("USD_JPY", 110.00);
+        conversionRates.put("JPY_USD", 0.0091);
+        conversionRates.put("USD_INR", 82.50); // Example rate, 1 USD = 82.50 INR
+        conversionRates.put("INR_USD", 0.012); // Example rate, 1 INR = 0.012 USD
+        conversionRates.put("EUR_INR", 88.50); // Example rate, 1 EUR = 88.50 INR
+        conversionRates.put("INR_EUR", 0.011); // Example rate, 1 INR = 0.011 EUR
+        conversionRates.put("GBP_INR", 103.00); // Example rate, 1 GBP = 103.00 INR
+        conversionRates.put("INR_GBP", 0.0097); // Example rate, 1 INR = 0.0097 GBP
+        conversionRates.put("JPY_INR", 0.75); // Example rate, 1 JPY = 0.75 INR
+        conversionRates.put("INR_JPY", 1.33); // Example rate, 1 INR = 1.33 JPY
+        // Add more rates as needed
+    }
+
+    // Method to convert currency
+    public static double convertCurrency(double amount, String fromCurrency, String toCurrency) {
+        String key = fromCurrency + "_" + toCurrency;
+        if (conversionRates.containsKey(key)) {
+            return amount * conversionRates.get(key);
+        } else {
+            throw new IllegalArgumentException("Conversion rate not available for " + fromCurrency + " to " + toCurrency);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Currency Converter");
+        System.out.println("Available currencies: USD, EUR, GBP, JPY, INR");
+        System.out.print("Enter amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Enter from currency: ");
+        String fromCurrency = scanner.nextLine().toUpperCase();
+
+        System.out.print("Enter to currency: ");
+        String toCurrency = scanner.nextLine().toUpperCase();
+
+        try {
+            double convertedAmount = convertCurrency(amount, fromCurrency, toCurrency);
+            System.out.printf("%.2f %s is equivalent to %.2f %s%n", amount, fromCurrency, convertedAmount, toCurrency);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
