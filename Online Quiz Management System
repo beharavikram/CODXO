@@ -1,0 +1,108 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class OnlineQuizManagementSystem {
+
+    // Inner class to represent a Question
+    static class Question {
+        String questionText;
+        String[] options;
+        int correctOption;
+
+        public Question(String questionText, String[] options, int correctOption) {
+            this.questionText = questionText;
+            this.options = options;
+            this.correctOption = correctOption;
+        }
+
+        public boolean isAnswerCorrect(int answer) {
+            return answer == correctOption;
+        }
+    }
+
+    // List to store the quiz questions
+    private static final List<Question> quizQuestions = new ArrayList<>();
+    private static int score = 0;
+
+    // Method to initialize quiz questions
+    private static void initializeQuiz() {
+        quizQuestions.add(new Question(
+            "What is the capital of France?",
+            new String[]{"1. Berlin", "2. Madrid", "3. Paris", "4. Rome"},
+            3
+        ));
+        quizQuestions.add(new Question(
+            "What is 5 + 7?",
+            new String[]{"1. 11", "2. 12", "3. 13", "4. 14"},
+            2
+        ));
+        quizQuestions.add(new Question(
+            "Where is Taj Mahal Located ?",
+            new String[]{"1.Dehli", "2.Mumbai", "3.Lucknow", "4.Agra"},
+            4
+        ));
+        quizQuestions.add(new Question(
+            "Which planet is known as the Red Planet?",
+            new String[]{"1. Mars", "2. Earth", "3. Jupiter", "4. Saturn"},
+            1
+        ));
+    }
+
+    // Method to take the quiz
+    private static void takeQuiz() {
+        Scanner scanner = new Scanner(System.in);
+        score = 0;
+        for (int i = 0; i < quizQuestions.size(); i++) {
+            Question q = quizQuestions.get(i);
+            System.out.println("Question " + (i + 1) + ": " + q.questionText);
+            for (String option : q.options) {
+                System.out.println(option);
+            }
+            System.out.print("Enter your answer (1-4): ");
+            int answer = scanner.nextInt();
+            if (q.isAnswerCorrect(answer)) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Wrong! The correct answer was option " + q.correctOption + ".");
+            }
+            System.out.println();
+        }
+        System.out.println("Quiz completed!");
+        System.out.println("Your score: " + score + "/" + quizQuestions.size());
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        System.out.println("Welcome to the Online Quiz Management System!");
+
+        initializeQuiz();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean continueQuiz = true;
+
+        while (continueQuiz) {
+            System.out.println("1. Take Quiz");
+            System.out.println("2. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    takeQuiz();
+                    break;
+                case 2:
+                    continueQuiz = false;
+                    System.out.println("Exiting the quiz system. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose again.");
+                    break;
+            }
+        }
+
+        scanner.close();
+    }
+}
