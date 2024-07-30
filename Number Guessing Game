@@ -1,0 +1,58 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    private static final int MIN = 1;
+    private static final int MAX = 100;
+    private static int targetNumber;
+    private static int numberOfAttempts;
+
+    // Method to generate a random target number
+    private static void generateTargetNumber() {
+        Random random = new Random();
+        targetNumber = random.nextInt((MAX - MIN) + 1) + MIN;
+    }
+
+    // Method to check the player's guess
+    private static boolean checkGuess(int guess) {
+        numberOfAttempts++;
+        if (guess < targetNumber) {
+            System.out.println("Too low! Try again.");
+            return false;
+        } else if (guess > targetNumber) {
+            System.out.println("Too high! Try again.");
+            return false;
+        } else {
+            System.out.println("Congratulations! You've guessed the number!");
+            return true;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean gameWon = false;
+        numberOfAttempts = 0;
+
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.println("I'm thinking of a number between " + MIN + " and " + MAX + ".");
+        generateTargetNumber();
+
+        while (!gameWon) {
+            System.out.print("Enter your guess: ");
+            int guess = scanner.nextInt();
+
+            // Validate input
+            if (guess < MIN || guess > MAX) {
+                System.out.println("Please enter a number between " + MIN + " and " + MAX + ".");
+                continue;
+            }
+
+            // Check the guess
+            gameWon = checkGuess(guess);
+        }
+
+        System.out.println("It took you " + numberOfAttempts + " attempts to guess the number.");
+        scanner.close();
+    }
+}
