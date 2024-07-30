@@ -1,0 +1,81 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class AttendanceManagementSystem {
+
+    // A map to store student attendance
+    private static Map<String, String> attendanceMap = new HashMap<>();
+    
+    // Method to mark attendance for a student
+    public static void markAttendance(String studentName, String status) {
+        // Validate the status input
+        if (!status.equalsIgnoreCase("Present") && !status.equalsIgnoreCase("Absent")) {
+            System.out.println("Invalid status. Please use 'Present' or 'Absent'.");
+            return;
+        }
+        attendanceMap.put(studentName, status);
+        System.out.println("Attendance marked for " + studentName + ": " + status);
+    }
+
+    // Method to view attendance records
+    public static void viewAttendance() {
+        System.out.println("Attendance Records:");
+        for (Map.Entry<String, String> entry : attendanceMap.entrySet()) {
+            System.out.println("Student: " + entry.getKey() + ", Status: " + entry.getValue());
+        }
+    }
+
+    // Method to check if a student is present or absent
+    public static void checkAttendance(String studentName) {
+        if (attendanceMap.containsKey(studentName)) {
+            System.out.println("Student: " + studentName + ", Status: " + attendanceMap.get(studentName));
+        } else {
+            System.out.println("No attendance record found for student: " + studentName);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nAttendance Management System");
+            System.out.println("1. Mark Attendance");
+            System.out.println("2. View Attendance");
+            System.out.println("3. Check Attendance");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline left-over
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter student name: ");
+                    String nameToMark = scanner.nextLine();
+                    System.out.print("Enter attendance status (Present/Absent): ");
+                    String status = scanner.nextLine();
+                    markAttendance(nameToMark, status);
+                    break;
+                case 2:
+                    viewAttendance();
+                    break;
+                case 3:
+                    System.out.print("Enter student name to check: ");
+                    String nameToCheck = scanner.nextLine();
+                    checkAttendance(nameToCheck);
+                    break;
+                case 4:
+                    running = false;
+                    System.out.println("Exiting system...");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+
+        scanner.close();
+    }
+}
